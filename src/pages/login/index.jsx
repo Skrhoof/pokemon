@@ -6,6 +6,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.less'
 import logo from './images/logo.png'
 import kaMiGui from './images/卡咪龟.png'
+import GuiSi from './images/鬼斯.png'
 
 export default class Login extends Component {
 
@@ -63,8 +64,9 @@ export default class Login extends Component {
               </Button>
             </Form.Item>
           </Form>
-
+          
         </div>
+        <img className='guiSiIMG' src={GuiSi} />
       </div>
     )
   }
