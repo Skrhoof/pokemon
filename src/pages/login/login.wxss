@@ -2,7 +2,7 @@
   width: 100%;
   height: 100%;
   background-image: url('images/bg.png');
-  background-size: contain;
+  background-size: cover;
 }
 .login .login-header {
   height: 80px;
@@ -41,4 +41,10 @@
 }
 .login .login-content .login-form .login-form-button {
   width: 100%;
+}
+.login .guiSiIMG {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  bottom: 0;
 }

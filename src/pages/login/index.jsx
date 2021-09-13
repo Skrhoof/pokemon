@@ -2,19 +2,62 @@ import React, { Component } from 'react'
 
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { reqLogin } from '../../api';
 
 import './login.less'
 import logo from './images/logo.png'
 import kaMiGui from './images/卡咪龟.png'
 import GuiSi from './images/鬼斯.png'
 
+const screenWidth = window.screen.availWidth;
+
 export default class Login extends Component {
 
-  onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  state = {
+    guiLeft: 0,
+    guiTrans: 180
+  }
+
+  componentDidMount() {
+    const moveAnimate = () => {
+      this.moveTime = setTimeout(() => {
+        const { guiLeft, guiTrans } = this.state;
+        if (guiTrans === 180) {
+          this.setState({ guiLeft: guiLeft + 2 });
+          if ((guiLeft + 100) == screenWidth) {
+            this.setState({ guiTrans: 0 });
+          }
+        } else {
+          this.setState({ guiLeft: guiLeft - 2 });
+          if (guiLeft == 0) {
+            this.setState({ guiTrans: 180 });
+          }
+        }
+        return moveAnimate()
+      }, 10)
+    }
+    moveAnimate();
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.moveTime);
+  }
+
+  onFinish = async (values) => {
+    const { username, password } = values;
+    const response = await reqLogin(username, password);
+    //console.log(response);
+    const result =response.data;
+    if(result.status===0){
+
+    }else{
+
+    }
+
   };
 
   render() {
+    const { guiLeft, guiTrans } = this.state;
     return (
       <div className='login'>
         <header className='login-header'>
@@ -37,7 +80,13 @@ export default class Login extends Component {
                 {
                   required: true,
                   message: '冒险者请输入你的名字!',
-                },
+                }, {
+                  min: 4, message: '请至少输入4位哦'
+                }, {
+                  max: 12, message: '最多只能输入12位哦'
+                }, {
+                  pattern: /^[a-zA-Z0-9_]+$/, message: '名字必须是英文,数字或下划线组成哦'
+                }
               ]}
             >
               <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
@@ -64,9 +113,9 @@ export default class Login extends Component {
               </Button>
             </Form.Item>
           </Form>
-          
+
         </div>
-        <img className='guiSiIMG' src={GuiSi} />
+        <img className='guiSiIMG' style={{ left: `${guiLeft}px`, transform: `rotateY(${guiTrans}deg)` }} alt='' src={GuiSi} />
       </div>
     )
   }
