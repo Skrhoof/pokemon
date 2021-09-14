@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router';
 
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { reqLogin } from '../../api';
 
@@ -8,6 +9,9 @@ import './login.less'
 import logo from './images/logo.png'
 import kaMiGui from './images/卡咪龟.png'
 import GuiSi from './images/鬼斯.png'
+import memoryUtils from '../../utils/memoryUtils';
+import storageUtils from '../../utils/storageUtils';
+
 
 const screenWidth = window.screen.availWidth;
 
@@ -23,18 +27,18 @@ export default class Login extends Component {
       this.moveTime = setTimeout(() => {
         const { guiLeft, guiTrans } = this.state;
         if (guiTrans === 180) {
-          this.setState({ guiLeft: guiLeft + 2 });
-          if ((guiLeft + 100) == screenWidth) {
+          this.setState({ guiLeft: guiLeft + 1 });
+          if ((guiLeft + 100) === screenWidth) {
             this.setState({ guiTrans: 0 });
           }
         } else {
-          this.setState({ guiLeft: guiLeft - 2 });
-          if (guiLeft == 0) {
+          this.setState({ guiLeft: guiLeft - 1 });
+          if (guiLeft === 0) {
             this.setState({ guiTrans: 180 });
           }
         }
         return moveAnimate()
-      }, 10)
+      }, 5)
     }
     moveAnimate();
   }
@@ -47,16 +51,26 @@ export default class Login extends Component {
     const { username, password } = values;
     const response = await reqLogin(username, password);
     //console.log(response);
-    const result =response.data;
-    if(result.status===0){
-
-    }else{
-
+    const result = response.data;
+    if (result.status === 0) {
+      message.success('登陆成功');
+      const user = result.data;
+      memoryUtils.user = user;
+      storageUtils.saveUser(user);
+      this.props.history.replace('/');
+    } else {
+      message.error(result.msg);
     }
 
   };
 
   render() {
+
+    const user = memoryUtils.user
+    if (user._id) {
+      return <Redirect to='/' />
+    }
+
     const { guiLeft, guiTrans } = this.state;
     return (
       <div className='login'>
