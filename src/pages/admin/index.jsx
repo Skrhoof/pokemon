@@ -9,6 +9,7 @@ import Header from '../../components/Header'
 import Home from '../home'
 import Species from '../species'
 import Pokemon from '../pokemon'
+import PokemonCatch from '../pokemonCatch';
 import Role from '../role'
 import User from '../user'
 
@@ -33,6 +34,7 @@ export default class Admin extends Component {
               <Route path='/home' component={Home}/>
               <Route path='/species' component={Species}/>
               <Route path='/pokemon' component={Pokemon}/>
+              <Route path='/pokemonCatch' component={PokemonCatch}/>
               <Route path='/role' component={Role}/>
               <Route path='/user' component={User}/>
               <Redirect to='/home' />

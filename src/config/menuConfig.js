@@ -25,6 +25,10 @@ export default [
         title: '宝可梦管理',
         key: '/pokemon',
       },
+      {
+        title: '捕获宝可梦',
+        key: '/pokemonCatch',
+      },
     ]
   },
   {
