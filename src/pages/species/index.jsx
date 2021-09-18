@@ -50,6 +50,7 @@ export default class Species extends Component {
     this.setState({ showStatus: 0 })
     const speciesId = this.species._id;
     const speciesName = this.updateName;
+    console.log(speciesId);
     const result = await reqUpdateSpecies({ speciesId, speciesName })
     if (result.data.status === 0) {
       this.getList();

@@ -10,14 +10,18 @@ import {
 } from 'antd'
 
 import { PlusOutlined } from '@ant-design/icons';
-import { reqPokemons } from '../../api';
+import { reqPokemons, reqSearchPokemons } from '../../api';
+import { PAGE_SIZE } from '../../utils/constants'
 
 const Option = Select.Option
 
 export default class Home extends Component {
 
   state = {
+    total: 0,
     pokemons: [],
+    searchName: '',
+    searchType: 'pokemonName',
   }
 
   initColumns = () => {
@@ -56,7 +60,7 @@ export default class Home extends Component {
         render: (pokemon) => {
           return (
             <span>
-              <a>详情</a>&nbsp;&nbsp;&nbsp;
+              <a onClick={()=>this.props.history.push('/pokemon/detail',pokemon)}>详情</a>&nbsp;&nbsp;&nbsp;
               <a>修改</a>
             </span>
           )
@@ -65,20 +69,39 @@ export default class Home extends Component {
     ]
   }
 
+  getPokemons = async (pageNum) => {
+    const { searchName, searchType } = this.state;
+    let result;
+    if (searchName) {
+      result = await reqSearchPokemons({ pageNum, pageSize: PAGE_SIZE, searchName, searchType })
+      console.log(result);
+    } else {
+      result = await reqPokemons(pageNum, PAGE_SIZE);
+    }
+    //console.log(result);
+    if (result.data.status === 0) {
+      this.setState({ pokemons: result.data.data.list, total: result.data.data.total })
+    }
+  }
+
   componentWillMount() {
     this.initColumns();
   }
 
-  render() {
+  componentDidMount() {
+    this.getPokemons(1);
+  }
 
+  render() {
+    const { total, pokemons, searchType, searchName } = this.state;
     const title = (
       <span>
-        <Select value='1' style={{ width: 150 }}>
-          <Option value='1'>按名称搜索</Option>
-          <Option value='2'>按描述搜索</Option>
+        <Select value={searchType} style={{ width: 150 }} onChange={value => this.setState({ searchType: value })}>
+          <Option value='pokemonName'>按名称搜索</Option>
+          <Option value='pokemonDesc'>按描述搜索</Option>
         </Select>
-        <Input placeholder='关键字' style={{ width: 150, margin: '0 15px' }} />
-        <Button type='primary'>搜索</Button>
+        <Input placeholder='关键字' style={{ width: 150, margin: '0 15px' }} value={searchName} onChange={e => this.setState({ searchName: e.target.value })} />
+        <Button type='primary' onClick={() => this.getPokemons(1)}>搜索</Button>
       </span>
     )
 
@@ -89,20 +112,20 @@ export default class Home extends Component {
       </Button>
     )
 
+
+
     return (
       <div>
         <Card title={title} extra={extra}>
           <Table
             bordered
-            dataSource={[
-              {
-                name: '123',
-                desc: '564',
-                price: 555,
-                status: '1',
-              }
-            ]}
+            dataSource={pokemons}
             columns={this.columns}
+            pagination={{
+              total,
+              defaultPageSize: PAGE_SIZE,
+              onChange: this.getPokemons
+            }}
           />
         </Card>
       </div>

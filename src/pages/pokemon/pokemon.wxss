@@ -1,0 +1,10 @@
+.pokemon-detail .left {
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+.pokemon-detail .pokemon-img {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+}

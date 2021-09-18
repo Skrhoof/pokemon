@@ -5,6 +5,8 @@ import PokemonHome from './home'
 import PokemonUpdate from './update'
 import PokemonDetail from './detail'
 
+import './pokemon.less'
+
 export default class Pokemon extends Component {
   render() {
     return (

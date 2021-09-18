@@ -16,6 +16,9 @@ export const reqAddSpecies = ({ parentId, speciesName }) => ajax('/manage/specie
 //更新分类
 export const reqUpdateSpecies = ({ speciesId, speciesName }) => ajax('/manage/species/update', { speciesId, speciesName }, 'POST')
 
+//获取一个分类
+export const reqSpecie = (speciesId) => ajax('/manage/species/info', { speciesId })
+
 //抓捕宝可梦
 export const reqCatchPokemon0 = ({ rarity0 }) => ajax('/manage/pokemonCatch0', { rarity0 }, 'POST')
 export const reqCatchPokemon1 = ({ rarity1 }) => ajax('/manage/pokemonCatch1', { rarity1 }, 'POST')
@@ -23,3 +26,6 @@ export const reqCatchPokemon2 = ({ rarity2 }) => ajax('/manage/pokemonCatch2', {
 
 //宝可梦列表
 export const reqPokemons = (pageNum, pageSize) => ajax('/manage/pokemon/list', { pageNum, pageSize })
+
+//搜索宝可梦列表
+export const reqSearchPokemons = ({ pageNum, pageSize, searchName, searchType }) => ajax('/manage/pokemon/search', { pageNum, pageSize, [searchType]: searchName })
