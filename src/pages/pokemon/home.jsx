@@ -60,7 +60,7 @@ export default class Home extends Component {
         render: (pokemon) => {
           return (
             <span>
-              <a onClick={()=>this.props.history.push('/pokemon/detail',pokemon)}>详情</a>&nbsp;&nbsp;&nbsp;
+              <a onClick={() => this.props.history.push('/pokemon/detail', pokemon)}>详情</a>&nbsp;&nbsp;&nbsp;
               <a>修改</a>
             </span>
           )
@@ -106,9 +106,9 @@ export default class Home extends Component {
     )
 
     const extra = (
-      <Button type='primary' onClick={() => { }}>
+      <Button type='primary' onClick={() => { this.props.history.push('/pokemon/update') }}>
         <PlusOutlined />
-        添加
+        添加宝可梦
       </Button>
     )
 
