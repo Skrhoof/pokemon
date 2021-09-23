@@ -12,13 +12,23 @@ const { Option } = Select;
 
 export default class Update extends Component {
 
+  constructor(props) {
+    super(props)
+    this.pw = React.createRef();
+  }
+
   state = {
     species: [],
   }
 
   onFinish = (values) => {
     console.log('Success:', values);
-  };
+    const imgs = this.pw.current.getImgs();
+  }
+
+  submitBtn = (values) => {
+    console.log('submit:', values);
+  }
 
   getList = async () => {
     const response = await reqSpecies('0');
@@ -96,14 +106,14 @@ export default class Update extends Component {
           </Item>
           <Item label='宝可梦照片：'
             name="pokeimgs">
-            <PicturesWall />
+            <PicturesWall ref={this.pw} imgs={[]} />
           </Item>
           <Item label='商品详情：'
             name="pokedetail">
 
           </Item>
           <Item >
-            <Button type='primary' htmlType="submit">提交</Button>
+            <Button type='primary' htmlType="submit" onClick={this.submitBtn} >提交</Button>
           </Item>
         </Form>
       </Card>
