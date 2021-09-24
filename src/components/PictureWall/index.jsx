@@ -18,13 +18,6 @@ function getBase64(file) {
 
 export default class PicturesWall extends Component {
 
-    state = {
-        previewVisible: false,
-        previewImage: '',
-        previewTitle: '',
-        fileList: this.props.imgs || []
-    };
-
     constructor(props) {
         super(props)
         let fileList = []
@@ -36,6 +29,12 @@ export default class PicturesWall extends Component {
                 status: 'done',
                 url: BASE_IMG_URL + img
             }))
+        }
+        this.state = {
+            previewVisible: false, // 是否显示大图预览
+            previewImage: '', // 大图的 url
+            previewTitle: '',
+            fileList: fileList // 所有需要显示的图片信息对象的数组
         }
     }
 
@@ -62,6 +61,7 @@ export default class PicturesWall extends Component {
             const result = file.response;
             if (result.status === 0) {
                 message.success('上传图片成功！')
+                console.log(result);
                 const { name, url } = result.data;
                 file = fileList[fileList.length - 1];
                 file.name = name;
@@ -71,7 +71,8 @@ export default class PicturesWall extends Component {
             }
         } else if (file.status === 'removed') {
             const result = await reqDeleteImg(file.name)
-            if (result.status === 0) {
+            console.log(result);
+            if (result.data.status === 0) {
                 message.success('删除图片成功！')
             } else {
                 message.error('删除图片失败！')

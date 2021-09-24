@@ -4,6 +4,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 
 import { reqSpecies } from '../../api';
 import PicturesWall from '../../components/PictureWall'
+import RichTextEditor from '../../components/RichTextEditor';
 
 const Item = Form.Item;
 const { TextArea } = Input;
@@ -15,6 +16,7 @@ export default class Update extends Component {
   constructor(props) {
     super(props)
     this.pw = React.createRef();
+    this.editor = React.createRef();
   }
 
   state = {
@@ -24,10 +26,8 @@ export default class Update extends Component {
   onFinish = (values) => {
     console.log('Success:', values);
     const imgs = this.pw.current.getImgs();
-  }
-
-  submitBtn = (values) => {
-    console.log('submit:', values);
+    const detail = this.editor.current.getDetail();
+    console.log(imgs, detail);
   }
 
   getList = async () => {
@@ -38,6 +38,13 @@ export default class Update extends Component {
 
   componentDidMount() {
     this.getList();
+  }
+
+  componentWillMount() {
+    // 取出跳转传入的数据
+    const pokemon = this.props.location.state
+    this.pokemon = pokemon || {}
+    this.isUpdate = !!pokemon // !!xxx 将一个数据强制转换成布尔类型
   }
 
   render() {
@@ -106,14 +113,17 @@ export default class Update extends Component {
           </Item>
           <Item label='宝可梦照片：'
             name="pokeimgs">
-            <PicturesWall ref={this.pw} imgs={[]} />
+            <PicturesWall ref={this.pw} imgs={this.pokemon.imgs} />
           </Item>
           <Item label='商品详情：'
-            name="pokedetail">
-
+            name="pokedetail"
+            labelCol={{ span: 2 }}
+            wrapperCol={{ span: 20 }}
+          >
+            <RichTextEditor ref={this.editor} detail={this.pokemon.detail} />
           </Item>
           <Item >
-            <Button type='primary' htmlType="submit" onClick={this.submitBtn} >提交</Button>
+            <Button type='primary' htmlType="submit" >提交</Button>
           </Item>
         </Form>
       </Card>

@@ -61,7 +61,7 @@ export default class Home extends Component {
           return (
             <span>
               <a onClick={() => this.props.history.push('/pokemon/detail', pokemon)}>详情</a>&nbsp;&nbsp;&nbsp;
-              <a>修改</a>
+              <a onClick={() => this.props.history.push('/pokemon/update', pokemon)}>修改</a>
             </span>
           )
         }

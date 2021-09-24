@@ -31,4 +31,4 @@ export const reqPokemons = (pageNum, pageSize) => ajax('/manage/pokemon/list', {
 export const reqSearchPokemons = ({ pageNum, pageSize, searchName, searchType }) => ajax('/manage/pokemon/search', { pageNum, pageSize, [searchType]: searchName })
 
 //删除图片
-export const reqDeleteImg = () => ajax('/manage/img/delete', { name }, 'POST')
+export const reqDeleteImg = (name) => ajax('/manage/img/delete', { name }, 'POST')
