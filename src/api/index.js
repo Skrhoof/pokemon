@@ -30,6 +30,9 @@ export const reqPokemons = (pageNum, pageSize) => ajax('/manage/pokemon/list', {
 //搜索宝可梦列表
 export const reqSearchPokemons = ({ pageNum, pageSize, searchName, searchType }) => ajax('/manage/pokemon/search', { pageNum, pageSize, [searchType]: searchName })
 
+//更新宝可梦状态
+export const reqUpdateStatus = (pokemonId, status) => ajax('/manage/pokemon/updateStatus', { pokemonId, status }, 'POST')
+
 //删除图片
 export const reqDeleteImg = (name) => ajax('/manage/img/delete', { name }, 'POST')
 

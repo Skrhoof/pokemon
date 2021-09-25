@@ -27,7 +27,7 @@ export default [
       },
       {
         title: '捕获宝可梦',
-        key: '/pokemonCatch',
+        key: '/catchPokemon',
       },
     ]
   },
@@ -36,9 +36,9 @@ export default [
     key: '/user',
     icon: <DesktopOutlined />
   },
-  {
-    title: '权限管理',
-    key: '/role',
-    icon: <ContainerOutlined />,
-  },
+  // {
+  //   title: '权限管理',
+  //   key: '/role',
+  //   icon: <ContainerOutlined />,
+  // },
 ]

@@ -79,9 +79,9 @@ export default class Species extends Component {
           <span>
             <a onClick={() => { this.showUpdate(data) }}>修改种族
             </a>
-            &nbsp;&nbsp;&nbsp;
+            {/* &nbsp;&nbsp;&nbsp;
             <a onClick={() => { this.showUpdate(data) }}>删除种族
-            </a>
+            </a> */}
           </span>)
       }
     ];

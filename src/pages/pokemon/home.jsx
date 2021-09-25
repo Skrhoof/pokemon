@@ -10,7 +10,7 @@ import {
 } from 'antd'
 
 import { PlusOutlined } from '@ant-design/icons';
-import { reqPokemons, reqSearchPokemons } from '../../api';
+import { reqPokemons, reqSearchPokemons, reqUpdateStatus } from '../../api';
 import { PAGE_SIZE } from '../../utils/constants'
 
 const Option = Select.Option
@@ -22,6 +22,16 @@ export default class Home extends Component {
     pokemons: [],
     searchName: '',
     searchType: 'pokemonName',
+  }
+
+  pageNum = 1
+
+  updateStatus = async (_id, status) => {
+    const result = await reqUpdateStatus(_id, status);
+    if (result.data.status == 0) {
+      message.success('更新状态成功');
+      this.getPokemons(this.pageNum);
+    }
   }
 
   initColumns = () => {
@@ -44,12 +54,16 @@ export default class Home extends Component {
       {
         width: 200,
         title: '状态',
-        dataIndex: 'status',
-        render: (price) => {
+        // dataIndex: 'status',
+        render: (pokemon) => {
+          const { status, _id } = pokemon;
+          const newStatus = status === 1 ? 2 : 1;
           return (
             <span>
-              <span>在售</span>&nbsp;&nbsp;&nbsp;
-              <Button type='primary'>下架</Button>
+              <span>{status === 1 ? '在售' : '下架中'}</span>&nbsp;&nbsp;&nbsp;
+              <Button type='primary'
+                onClick={() => { this.updateStatus(_id, newStatus) }}>
+                {status === 1 ? '下架' : '上架'}</Button>
             </span>
           )
         }
@@ -70,6 +84,7 @@ export default class Home extends Component {
   }
 
   getPokemons = async (pageNum) => {
+    this.pageNum = pageNum;
     const { searchName, searchType } = this.state;
     let result;
     if (searchName) {

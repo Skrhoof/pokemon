@@ -34,7 +34,7 @@ export default class Admin extends Component {
               <Route path='/home' component={Home}/>
               <Route path='/species' component={Species}/>
               <Route path='/pokemon' component={Pokemon}/>
-              <Route path='/pokemonCatch' component={PokemonCatch}/>
+              <Route path='/catchPokemon' component={PokemonCatch}/>
               <Route path='/role' component={Role}/>
               <Route path='/user' component={User}/>
               <Redirect to='/home' />

@@ -5,6 +5,7 @@ import {
 } from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { reqSpecie } from '../../api';
+import { BASE_IMG_URL } from '../../utils/constants'
 
 const Item = List.Item;
 
@@ -56,8 +57,8 @@ export default class Detail extends Component {
           <Item style={{ justifyContent: 'normal' }}>
             <span className='left'>宝可梦照片：</span>
             {imgs.map(img => {
-              // console.log(img);
-              return (<img key={img} src={img} alt='宝可梦照片' className='pokemon-img' />)
+              console.log(img);
+              return (<img key={img} src={BASE_IMG_URL + img} alt='宝可梦照片' className='pokemon-img' />)
             })}
 
           </Item>

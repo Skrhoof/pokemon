@@ -45,6 +45,7 @@ class LeftNav extends Component {
     if (path.indexOf('/pokemon') === 0) {
       path = '/pokemon'
     }
+    console.log(path);
     const openKey = this.openKey;
     return (
       <div className='left-nav'>
