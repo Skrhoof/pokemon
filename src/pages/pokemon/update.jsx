@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Card, Form, Input, Select, Upload, Button } from 'antd'
+import { Card, Form, Input, Select, Upload, Button, message } from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons';
 
-import { reqSpecies } from '../../api';
+import { reqSpecies, reqUpdatePokemon, reqAddPokemon } from '../../api';
 import PicturesWall from '../../components/PictureWall'
 import RichTextEditor from '../../components/RichTextEditor';
 
@@ -23,11 +23,39 @@ export default class Update extends Component {
     species: [],
   }
 
-  onFinish = (values) => {
+  onFinish = async (values) => {
     console.log('Success:', values);
+    const { pokename, pokeprice, pokedesc, pokespecies } = values;
     const imgs = this.pw.current.getImgs();
     const detail = this.editor.current.getDetail();
     console.log(imgs, detail);
+    const pokemon = {
+      name: pokename,
+      price: pokeprice,
+      speciesId: pokespecies,
+      desc: pokedesc,
+      imgs: imgs,
+      detail: detail,
+    }
+    let result
+    if (this.isUpdate) {
+      pokemon._id = this.pokemon._id;
+      result = await reqUpdatePokemon(pokemon)
+      if (result.data.status === 0) {
+        message.success('更新成功')
+        this.props.history.goBack();
+      } else {
+        message.error('失败')
+      }
+    } else {
+      result = await reqAddPokemon(pokemon)
+      if (result.data.status === 0) {
+        message.success('添加成功')
+        this.props.history.goBack();
+      } else {
+        message.error('失败')
+      }
+    }
   }
 
   getList = async () => {
@@ -73,7 +101,7 @@ export default class Update extends Component {
                 message: '必须输入宝可梦名字哦',
               },
             ]}>
-            <Input placeholder='请输入宝可梦名称' />
+            <Input placeholder='请输入宝可梦名称' defaultValue={this.isUpdate ? this.pokemon.name : ''} />
           </Item>
           <Item label='宝可梦描述：'
             name="pokedesc"
@@ -83,7 +111,7 @@ export default class Update extends Component {
                 message: '必须输入宝可梦的描述',
               },
             ]}>
-            <TextArea placeholder='请输入宝可梦描述' autoSize={{ minRows: 2, maxRows: 6 }} />
+            <TextArea placeholder='请输入宝可梦描述' autoSize={{ minRows: 2, maxRows: 6 }} defaultValue={this.isUpdate ? this.pokemon.desc : ''} />
           </Item>
           <Item label='宝可梦价格：'
             name="pokeprice"
@@ -93,7 +121,7 @@ export default class Update extends Component {
                 message: '必须输入宝可梦的价格',
               },
             ]}>
-            <Input type='number' placeholder='请输入宝可梦价格' addonAfter='金' />
+            <Input type='number' placeholder='请输入宝可梦价格' addonAfter='金' defaultValue={this.isUpdate ? this.pokemon.price : ''} />
           </Item>
           <Item label='所属物种：'
             name="pokespecies"
@@ -103,7 +131,7 @@ export default class Update extends Component {
                 message: '必须选择宝可梦物种',
               },
             ]}>
-            <Select>
+            <Select defaultValue={this.isUpdate ? this.pokemon.speciesId : ''}>
               {species.map((item) => {
                 return (
                   <Option value={item._id}>{item.name}</Option>

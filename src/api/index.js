@@ -32,3 +32,8 @@ export const reqSearchPokemons = ({ pageNum, pageSize, searchName, searchType })
 
 //删除图片
 export const reqDeleteImg = (name) => ajax('/manage/img/delete', { name }, 'POST')
+
+//添加宝可梦
+export const reqAddPokemon = (pokemon) => ajax('/manage/pokemon/add', pokemon, 'POST')
+//修改宝可梦
+export const reqUpdatePokemon = (pokemon) => ajax('/manage/pokemon/update', pokemon, 'POST')
