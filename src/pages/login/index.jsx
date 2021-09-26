@@ -125,6 +125,7 @@ export default class Login extends Component {
               <Button type="primary" htmlType="submit" className="login-form-button">
                 登陆
               </Button>
+              <a href="/register">register now!</a>
             </Form.Item>
           </Form>
 
