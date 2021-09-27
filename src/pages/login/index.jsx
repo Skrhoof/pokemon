@@ -94,13 +94,7 @@ export default class Login extends Component {
                 {
                   required: true,
                   message: '冒险者请输入你的名字!',
-                }, {
-                  min: 4, message: '请至少输入4位哦'
-                }, {
-                  max: 12, message: '最多只能输入12位哦'
-                }, {
-                  pattern: /^[a-zA-Z0-9_]+$/, message: '名字必须是英文,数字或下划线组成哦'
-                }
+                }, 
               ]}
             >
               <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
