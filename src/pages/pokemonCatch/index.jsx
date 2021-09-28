@@ -9,6 +9,7 @@ import {
   message
 } from 'antd'
 
+import storageUtils from '../../utils/storageUtils';
 import { reqCatchPokemon0, reqCatchPokemon1, reqCatchPokemon2 } from '../../api'
 import './pokemonCatch.less'
 
@@ -48,6 +49,7 @@ export default class PokemonCatch extends Component {
     const result2 = await reqCatchPokemon2({ rarity2: numList[2] });
     // console.log(result2.data);
     this.setState({ catchPokemon: [...result2.data, ...result1.data, ...result0.data] })
+    storageUtils.savePokemons([...result2.data, ...result1.data, ...result0.data]);
   }
 
   render() {
